@@ -23,3 +23,5 @@ if ! sudo grep -q "$pam_limits_line" "$pam_file"; then
     echo "$pam_limits_line" | sudo tee -a "$pam_file"
     echo "Added $pam_limits_line to $pam_file."
 fi
+
+systemctl restart ssh
