@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csv_file="../database/users.csv"
+csv_file="database/users.csv"
 
 if [ ! -f "$csv_file" ]; then
     echo "CSV file not found: $csv_file"

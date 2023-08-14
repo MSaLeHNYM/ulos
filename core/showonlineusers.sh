@@ -1,8 +1,14 @@
 #!/bin/bash
 
-csv_file="../database/users.csv"
+csv_file="database/users.csv"
 
-echo "Currently connected SSH users on port 1001:"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+PURPLE="\e[35m"
+RESET="\e[0m"
+
+echo -e "${PURPLE}Connected Users via SSH on Port 1001:${RESET}"
+echo "------------------------------------------"
 
 # Read the list of usernames from the CSV file
 user_list=$(cut -d',' -f1 "$csv_file")
@@ -15,10 +21,8 @@ for username in $connected_users; do
     if [[ "$username" != "0" && ("$user_list" =~ "$username" || "$username" == "root") ]]; then
         ssh_connections=$(ps -ef | grep "sshd: $username@pts" | wc -l)
 
-        if [[ "$username" == "root" ]]; then
-            echo -e "\e[32mUser: $username, Connections: $ssh_connections\e[0m"
-        else
-            echo "User: $username, Connections: $ssh_connections"
-        fi
+        echo -e "${GREEN}Username:${RESET} $username"
+        echo -e "${YELLOW}Connections:${RESET} $ssh_connections"
+        echo "------------------------------------------"
     fi
 done

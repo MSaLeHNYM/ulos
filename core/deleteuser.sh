@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csv_file="../database/users.csv"
+csv_file="database/users.csv"
 pam_limits_file="/etc/security/limits.conf"
 
 if [ $# -ne 1 ]; then

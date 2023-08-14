@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csv_file="../database/users.csv"
+csv_file="database/users.csv"
 
 GREEN="\e[32m"
 YELLOW="\e[33m"
