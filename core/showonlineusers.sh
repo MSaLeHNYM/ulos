@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csv_file="users.csv"
+csv_file="../database/users.csv"
 
 echo "Currently connected SSH users on port 1001:"
 

@@ -1,17 +1,18 @@
 #!/bin/bash
 
-chmod +x showonlineusers.sh
-chmod +x updateusers.sh
-chmod +x adduser.sh
-chmod +x addlimit.sh
-chmod +x showallusers.sh
-chmod +x deleteuser.sh
-
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RESET="\e[0m"
 
 echo -e "Welcome to the ${YELLOW}User Management Script${RESET}"
+
+chmod +x ./core/showonlineusers.sh
+chmod +x ./core/updateusers.sh
+chmod +x ./core/adduser.sh
+chmod +x ./core/addlimit.sh
+chmod +x ./core/showallusers.sh
+chmod +x ./core/deleteuser.sh
+
 while true; do
     echo "Select an option:"
     echo -e "1. ${GREEN}Show Online Users${RESET}"
@@ -28,21 +29,21 @@ while true; do
         1)
             echo -e "${GREEN}Fetching online users...${RESET}"
             sleep 1
-            ./showonlineusers.sh
+            ./core/showonlineusers.sh
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;
         2)
             echo -e "${GREEN}Updating users...${RESET}"
             sleep 1
-            ./updateusers.sh
+            ./core/updateusers.sh
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;
         3)
             echo -e "${GREEN}Adding a new user...${RESET}"
             sleep 1
-            ./adduser.sh
+            ./core/adduser.sh
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;
@@ -51,14 +52,14 @@ while true; do
             read -p "Enter connection limit: " connection_limit
             echo -e "${GREEN}Adding limits for user...${RESET}"
             sleep 1
-            ./addlimit.sh "$username" "$connection_limit"
+            ./core/addlimit.sh "$username" "$connection_limit"
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;
         5)
             echo -e "${GREEN}Displaying all users...${RESET}"
             sleep 1
-            ./showallusers.sh
+            ./core/showallusers.sh
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;
@@ -66,7 +67,7 @@ while true; do
             read -p "Enter username to delete: " delete_username
             echo -e "${GREEN}Deleting user...${RESET}"
             sleep 1
-            ./deleteuser.sh "$delete_username"
+            ./core/deleteuser.sh "$delete_username"
             read -n 1 -s -r -p "Press any key to return to the main menu..."
             echo
             ;;

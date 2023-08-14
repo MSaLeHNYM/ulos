@@ -1,6 +1,6 @@
 #!/bin/bash
 
-csv_file="users.csv"
+csv_file="../database/users.csv"
 pam_limit_line="session required pam_limits.so"
 
 read -p "Enter username: " username
