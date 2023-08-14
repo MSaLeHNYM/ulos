@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+chmod +x ./updateusers.sh
+chmod +x ./addlimit.sh
+
+
 print_menu() {
     echo "Select an option:"
     echo "1. Update Users"
