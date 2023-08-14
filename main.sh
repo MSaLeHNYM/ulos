@@ -2,19 +2,21 @@
 
 print_menu() {
     echo "Select an option:"
-    echo "1. Add Users"
+    echo "1. Update Users"
     echo "2. Add Connection Limits"
-    echo "3. Update Users"
-    echo "4. Quit"
+    echo "3. Quit"
 }
 
 read_option() {
     read -p "Enter your choice: " choice
     case $choice in
-        1) ./adduser.sh ;;
-        2) ./addlimit.sh ;;
-        3) ./updateusers.sh ;;
-        4) echo "Exiting." ; exit 0 ;;
+        1) ./updateusers.sh ;;
+        2) 
+            read -p "Enter the username: " username
+            read -p "Enter the connection limit: " limit
+            ./addlimit.sh "$username" "$limit"
+            ;;
+        3) echo "Exiting." ; exit 0 ;;
         *) echo "Invalid option. Please select a valid option." ;;
     esac
 }
