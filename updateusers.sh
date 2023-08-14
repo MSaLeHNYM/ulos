@@ -42,4 +42,5 @@ while IFS=',' read -r username password limit; do
     fi
 done < "$csv_file"
 
+systemctl restart ssh
 echo "All users processed."
