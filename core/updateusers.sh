@@ -12,14 +12,6 @@ if [ ! -f "$csv_file" ]; then
     exit 1
 fi
 
-pam_limits_line="session required pam_limits.so"
-pam_file="/etc/pam.d/sshd"  # Modify to your service-specific PAM file if needed
-
-if ! sudo grep -q "$pam_limits_line" "$pam_file"; then
-    echo "$pam_limits_line" | sudo tee -a "$pam_file"
-    echo -e "${GREEN}Added $pam_limits_line to $pam_file.${RESET}"
-fi
-
 total_users_processed=0
 total_updated_limits=0
 total_added_users=0
@@ -29,9 +21,11 @@ while IFS=',' read -r username password limit; do
     if id "$username" &>/dev/null; then
         echo -e "User ${GREEN}$username${RESET} already exists. Updating connection limit."
 
-        # Update user-specific PAM limit configuration
-        limit_conf="/etc/security/limits.d/$username.conf"
-        echo "$username hard maxlogins $limit" | sudo tee "$limit_conf"
+        # Remove the existing user limit configuration from limits.conf
+        sudo sed -i "/^$username /d" /etc/security/limits.conf
+
+        # Add the updated limit configuration for the user
+        echo "$username hard maxlogins $limit" | sudo tee -a /etc/security/limits.conf
 
         echo -e "Connection limit updated for user ${GREEN}$username${RESET}."
         ((total_updated_limits++))
@@ -44,9 +38,8 @@ while IFS=',' read -r username password limit; do
 
         echo -e "User ${YELLOW}$username${RESET} added with /bin/false shell and password set."
 
-        # Create user-specific PAM limit configuration
-        limit_conf="/etc/security/limits.d/$username.conf"
-        echo "$username hard maxlogins $limit" | sudo tee "$limit_conf"
+        # Add the limit configuration for the new user
+        echo "$username hard maxlogins $limit" | sudo tee -a /etc/security/limits.conf
 
         echo -e "PAM limits added for user ${YELLOW}$username${RESET}."
         ((total_added_users++))

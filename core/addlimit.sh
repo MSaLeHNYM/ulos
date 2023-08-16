@@ -9,17 +9,21 @@ if [ -z "$user" ] || [ -z "$limit" ]; then
     exit 1
 fi
 
-# Create user-specific PAM limit configuration
-limit_conf="/etc/security/limits.d/$user.conf"
-echo "$user hard maxlogins $limit" | sudo tee "$limit_conf"
+# Remove the existing user limit configuration from limits.conf
+sudo sed -i "/^$user /d" /etc/security/limits.conf
 
-echo "PAM limits added for user $user."
+# Add the new limit configuration for the user
+echo "$user hard maxlogins $limit" | sudo tee -a /etc/security/limits.conf
+echo "Updated PAM limits for user $user in /etc/security/limits.conf."
 
 # Check if pam_limits.so is present in the PAM configuration file
 pam_limits_line="session required pam_limits.so"
 pam_file="/etc/pam.d/sshd"  # Modify to your service-specific PAM file if needed
 
-if ! sudo grep -q "$pam_limits_line" "$pam_file"; then
+if sudo grep -q "$pam_limits_line" "$pam_file"; then
+    echo "$pam_limits_line already present in $pam_file."
+else
+    # Append the pam_limits.so line to the PAM configuration file
     echo "$pam_limits_line" | sudo tee -a "$pam_file"
     echo "Added $pam_limits_line to $pam_file."
 fi
